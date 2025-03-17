@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="text-align: center; display: block;">个人简历投递记录</title>
+    <style>
+        body {
+            position: relative;
+            font-family: Arial, sans-serif;
+            background-image: url('./res/background.jpg'); /* 替换为你的背景图片 */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8); /* 半透明背景提升可读性 */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: rgba(242, 242, 242, 0.9);
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #4caf50;
+            width: 0%;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            line-height: 20px;
+            transition: width 0.5s;
+        }
+        .add-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center; color: white;">个人简历投递记录</h2>
+    <button class="add-button" onclick="addRow()">添加公司</button>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>公司名称</th>
+                <th>进度</th>
+                <th>更新状态</th>
+            </tr>
+        </thead>
+        <tbody id="jobTable">
+        </tbody>
+    </table>
+    
+    <script>
+        const progressStages = {
+            "未投递": 0,
+            "已投递": 20,
+            "已发笔试": 40,
+            "面试": 60,
+            "offer": 100,
+            "拒绝": 0
+        };
+        
+        function updateStatus(selectElement) {
+            let row = selectElement.parentElement.parentElement;
+            let progressBar = row.querySelector('.progress-bar');
+            let status = selectElement.value;
+            progressBar.textContent = status;
+            progressBar.style.width = progressStages[status] + "%";
+            saveData();
+            sortTable();
+        }
+        
+        function addRow(companyName = "", status = "未投递") {
+            let table = document.getElementById("jobTable");
+            let row = table.insertRow();
+            let indexCell = row.insertCell(0);
+            let companyCell = row.insertCell(1);
+            let progressCell = row.insertCell(2);
+            let actionCell = row.insertCell(3);
+            
+            if (!companyName) {
+                companyName = prompt("请输入公司名称:");
+                if (!companyName) return;
+            }
+            
+            indexCell.textContent = table.rows.length;
+            companyCell.textContent = companyName;
+            
+            let progressContainer = document.createElement("div");
+            progressContainer.classList.add("progress-container");
+            let progressBar = document.createElement("div");
+            progressBar.classList.add("progress-bar");
+            progressBar.textContent = status;
+            progressBar.style.width = progressStages[status] + "%";
+            progressContainer.appendChild(progressBar);
+            progressCell.appendChild(progressContainer);
+            
+            let select = document.createElement("select");
+            select.innerHTML = `
+                <option value="未投递">未投递</option>
+                <option value="已投递">已投递</option>
+                <option value="已发笔试">已发笔试</option>
+                <option value="面试">面试</option>
+                <option value="offer">offer</option>
+                <option value="拒绝">拒绝</option>
+            `;
+            select.value = status;
+            select.onchange = function() { updateStatus(this); };
+            actionCell.appendChild(select);
+            
+            saveData();
+            sortTable();
+        }
+        
+        function saveData() {
+            let data = [];
+            let rows = document.querySelectorAll("#jobTable tr");
+            rows.forEach(row => {
+                let company = row.cells[1].textContent;
+                let status = row.querySelector(".progress-bar").textContent;
+                data.push({ company, status });
+            });
+            localStorage.setItem("jobData", JSON.stringify(data));
+        }
+        
+        function loadData() {
+            let data = localStorage.getItem("jobData");
+            if (data) {
+                JSON.parse(data).forEach(entry => addRow(entry.company, entry.status));
+            }
+        }
+        
+        function sortTable() {
+            let table = document.getElementById("jobTable");
+            let rows = Array.from(table.rows);
+            rows.sort((a, b) => {
+                let progressA = progressStages[a.querySelector(".progress-bar").textContent];
+                let progressB = progressStages[b.querySelector(".progress-bar").textContent];
+                return progressB - progressA;
+            });
+            rows.forEach((row, index) => {
+                row.cells[0].textContent = index + 1;
+                table.appendChild(row);
+            });
+        }
+        
+        window.onload = loadData;
+    </script>
+</body>
+</html>
