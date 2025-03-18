@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历投递状态记录</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+
+<body class="min-h-screen p-8">
+    <div class="max-w-7xl mx-auto bg-white shadow-md rounded-md p-6 h-full">
+        <h1 class="text-3xl font-bold text-center mb-6">简历投递状态记录</h1>
+        <div class="flex justify-end mb-4">
+            <button id="openModalButton" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">添加投递信息</button>
+        </div>
+        <table id="applicationTable" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">位次</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">公司名称</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">职位名称</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">投递日期</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">当前状态</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200"></tbody>
+        </table>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl font-bold mb-4">添加投递信息</h2>
+            <form id="applicationForm" class="space-y-4">
+                <div>
+                    <label for="company" class="block text-sm font-medium text-gray-700">公司名称:</label>
+                    <input type="text" id="company" list="companyList" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                    <datalist id="companyList"></datalist>
+                </div>
+                <div>
+                    <label for="position" class="block text-sm font-medium text-gray-700">职位名称:</label>
+                    <input type="text" id="position" list="positionList" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                    <datalist id="positionList"></datalist>
+                </div>
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">投递日期:</label>
+                    <input type="date" id="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                </div>
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700">当前状态:</label>
+                    <select id="status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option value="已投递">已投递</option>
+                        <option value="待面试">待面试</option>
+                        <option value="面试中">面试中</option>
+                        <option value="已录用">已录用</option>
+                        <option value="已拒绝">已拒绝</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" id="closeModalButton" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md">取消</button>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">添加记录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../scripts/script.js"></script>
+</body>
+
+</html>    

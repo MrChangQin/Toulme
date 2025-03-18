@@ -1,0 +1,62 @@
+body {
+    /* 使用 rgba 颜色值设置半透明背景，这里的 0.8 可以根据需要调整透明度 */
+    background-color: rgba(255, 255, 255, 0.5);
+    background-image: url('../data/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #f8f7f7;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 20px;
+    background-color: #22c55e;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    border-radius: 4px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    /* 设置模态框内容为半透明背景 */
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+}
+
+/* 增大表头字体，使用 !important 确保生效 */
+th {
+    font-size: 1.2rem !important;
+}
+
+/* 修改内容区域的背景颜色为透明 */
+.max-w-7xl {
+    background-color: transparent;
+    box-shadow: none; /* 如果有阴影，也可以去掉 */
+}
+
+/* 设置表格为半透明背景 */
+#applicationTable,
+#applicationTable thead,
+#applicationTable tbody {
+    background-color: rgba(255, 255, 255, 0.5);
+}    
